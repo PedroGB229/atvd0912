@@ -1,14 +1,16 @@
 import { Validate } from "./Validate.js";
 import { Requests } from "./Requests.js";
 
-const preCadastro = document.getElementById('preCadastro');
-const form = document.getElementById('form');
+const precadastro = document.getElementById('precadastro');
+
+const Login = document.getElementById('Login');
 
 $('#cpf').inputmask({ "mask": ["999.999.999-99"] });
 $('#celular').inputmask({ "mask": ["(99) 99999-9999"] });
 $('#whatsapp').inputmask({ "mask": ["(99) 99999-9999"] });
+$('#rg').inputmask({ "mask": ["99999"] });
 
-preCadastro.addEventListener('click', async () => {
+precadastro.addEventListener('click', async () => {
     try {
         const response = await Requests.SetForm('form').Post('/login/precadastro');
         if (!response.status) {
@@ -20,22 +22,18 @@ preCadastro.addEventListener('click', async () => {
             });
             return;
         }
-
         Swal.fire({
             title: "Sucesso!",
             text: response.msg,
             icon: "success",
             timer: 3000
         });
-
-        $("#pre-cadastro").modal('hide');
+        $('#pre-cadastro').modal('hide');
     } catch (error) {
         console.log(error);
     }
 });
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+Login.addEventListener('click', async () => {
     try {
         const response = await Requests.SetForm('form').Post('/login/autenticar');
         if (!response.status) {
@@ -48,7 +46,7 @@ form.addEventListener('submit', async (e) => {
             return;
         }
         Swal.fire({
-            title: "Atenção!",
+            title: "Sucesso!",
             text: response.msg,
             icon: "success",
             timer: 2000
