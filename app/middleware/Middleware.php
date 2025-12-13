@@ -2,8 +2,6 @@
 
 namespace app\middleware;
 
-use app\database\builder\SelectQuery;
-
 class Middleware
 {
     public static function authentication()

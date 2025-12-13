@@ -1,5 +1,4 @@
 //import { DataTables } from "./DataTables.js";
-
 const tabela = new $('#tabela').DataTable({
     paging: true,
     lengthChange: true,
@@ -20,6 +19,36 @@ const tabela = new $('#tabela').DataTable({
         url: '/usuario/listuser',
         type: 'POST'
     }
+    
 });
+async function Delete(id) {
+    document.getElementById('id').value = id;
+    const response = await Requests.SetForm('form').Post('/usuario/delete');
+    if (!response.status) {
+        Swal.fire({
+            title: "Erro ao remover!",
+            icon: "error",
+            html: response.msg,
+            timer: 1000,
+            timerProgressBar: true,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        return;
+    }
+    Swal.fire({
+        title: "Removido com sucesso!",
+        icon: "success",
+        html: response.msg,
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+    tabela.ajax.reload();
+}
+window.Delete = Delete;
 
 //DataTables.SetId('tabela').Post('/user/listuser');
